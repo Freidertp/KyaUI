@@ -1,0 +1,22 @@
+<Ui xmlns='http://www.blizzard.com/wow/ui/'>
+	<Script file='Code.lua'/>
+	<Script file='Media\LoadMedia.lua'/>
+	<Script file='Core\defaults.lua'/>
+	<Script file='Core\install.lua'/>
+	<Script file='Core\commands.lua'/>
+	<Script file='Modules\CVar.lua'/>
+	<Script file='Modules\Theme.lua'/>
+	<Script file='Modules\Chat.lua'/>
+	<Script file='Modules\Nameplates.lua'/>
+	<Script file='Profiles\data_elvui.lua'/>
+	<Script file='Profiles\data_private.lua'/>
+	<Script file='Profiles\data_global.lua'/>
+	<Script file='Profiles\data_skada.lua'/>
+	<Script file='Profiles\data_dbm.lua'/>
+	<Script file='Profiles\data_weakauras.lua'/>
+	<Script file='Profiles\ElvUI.lua'/>
+	<Script file='Profiles\xCT.lua'/>
+	<Script file='Profiles\Skada.lua'/>
+	<Script file='Profiles\DBM.lua'/>
+	<Script file='Profiles\WeakAuras.lua'/>
+</Ui>

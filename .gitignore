@@ -1,0 +1,7 @@
+dist/
+*.zip
+*.bak
+*.orig
+*.rej
+Thumbs.db
+desktop.ini

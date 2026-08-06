@@ -1,0 +1,47 @@
+========================================
+  KyaUI - Instalacion (para Ascension / Conquest of Azeroth)
+========================================
+
+QUE ES:
+  La UI de Kyaro basada en ElvUI, con un asistente que la configura sola.
+  Incluye ElvUI YA PARCHEADO para el cliente custom de Ascension (importante).
+
+--------------------------------------------------
+1) INSTALAR
+--------------------------------------------------
+  1. Cierra el juego por completo.
+  2. Copia TODAS las carpetas de este ZIP a:
+        ...\resources\ascension-live\Interface\AddOns\
+     (donde estan tus otros addons)
+  3. Abre el juego. En la pantalla de personajes -> AddOns:
+        - Activa "Load out of date AddOns" (Cargar AddOns desactualizados).
+        - Verifica que ElvUI, KyaUI y los demas estan marcados.
+
+  OJO: usa el ElvUI de este paquete (lleva los arreglos para CoA).
+       Un ElvUI normal da errores de Lua en Ascension.
+
+--------------------------------------------------
+2) PRIMER ARRANQUE
+--------------------------------------------------
+  - Al entrar, el asistente de KyaUI se abre SOLO (no sale el instalador de ElvUI).
+    (Si no aparece, escribe:  /kyaui )
+  - Recorre las paginas en orden y al final pulsa "Finished":
+        CVars -> Apply KyaUI -> Theme -> Chat -> xCT+ (elige tu rol) -> Skada -> DBM -> Finished
+
+--------------------------------------------------
+3) OPCIONAL
+--------------------------------------------------
+  - DBM (avisos de jefes): NO viene en este paquete (es grande). Si lo quieres,
+    instala DBM aparte; KyaUI le aplica el perfil automaticamente en su pagina "DBM".
+  - Re-abrir el asistente en cualquier momento:  /kyaui   (o  /kui )
+
+--------------------------------------------------
+NOTAS
+--------------------------------------------------
+  - Nameplates: KyaUI apaga la opcion "Use Ascension NamePlates" para que ElvUI las
+    estilice. Si el cliente la re-activa, KyaUI la apaga sola al entrar (popup de reload).
+  - NO incluye nada de clase (sin WeakAuras): es una base limpia; cada quien anade lo suyo.
+  - Los keybinds son por personaje (no se comparten): ponlos tu.
+  - Pensado para 1080p.
+
+  (Mas detalles en KyaUI\README.md)
