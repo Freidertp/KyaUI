@@ -16,7 +16,8 @@ Write-Host "Empaquetando KyaUI v$version..."
 if (Test-Path $staging) { Remove-Item $staging -Recurse -Force }
 New-Item -ItemType Directory -Force -Path $staging | Out-Null
 
-# Addons de terceros (ElvUI parcheado, Skada, xCT+, ...)
+# Addons de terceros (Skada, xCT+, plugins de ElvUI que el launcher no reparte, ...).
+# ElvUI NO va aqui: lo instala el usuario desde el Ascension Launcher y es dependencia.
 Get-ChildItem (Join-Path $root 'vendor') -Directory | ForEach-Object {
     robocopy $_.FullName (Join-Path $staging $_.Name) /E /XF *.bak /NFL /NDL /NJH /NJS /NP | Out-Null
 }
@@ -26,6 +27,10 @@ robocopy (Join-Path $root 'KyaUI') (Join-Path $staging 'KyaUI') /E /XF *.bak /NF
 # Instrucciones en la raiz del zip
 Copy-Item (Join-Path $root 'vendor\INSTALL.txt') $staging -Force -ErrorAction SilentlyContinue
 Copy-Item (Join-Path $root 'README.md')          $staging -Force
+
+# Actualizador: el usuario lo tiene desde la primera instalacion
+Copy-Item (Join-Path $root 'launcher\KyaUI-Launcher.bat') $staging -Force
+Copy-Item (Join-Path $root 'launcher\KyaUI-Update.ps1')   $staging -Force
 
 $zip = Join-Path $dist "KyaUI-Package-v$version.zip"
 if (Test-Path $zip) { Remove-Item $zip -Force }

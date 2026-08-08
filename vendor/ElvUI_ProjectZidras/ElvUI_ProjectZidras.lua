@@ -29,37 +29,19 @@ Engine[7] = G
 _G[AddOnName] = Engine
 
 -- List of Modules
+-- KyaUI: el modulo NamePlates se ha quitado del paquete. Estaba escrito contra las nameplates
+-- de ElvUI 6.09 (NP.Update_CastBar, NP.CreatedPlates...) y ElvUI 7.x las reescribio sobre oUF,
+-- donde ya vienen de serie el puente con la API HD del cliente y el "hechizo > objetivo".
 PZ.Chat = E:NewModule("ProjectZidras_Chat", "AceEvent-3.0")
-PZ.NamePlates = E:NewModule("ProjectZidras_NamePlates", "AceEvent-3.0", "AceHook-3.0")
 PZ.UnitFrames = E:NewModule("ProjectZidras_UnitFrames")
 PZ.WrathArmory = E:NewModule("ProjectZidras_WrathArmory", "AceEvent-3.0", "AceHook-3.0")
 
--- Database Conversion
-local function databaseConversions()
-	--Profile options conversion
-	for _, data in pairs(ElvDB.profiles) do
-		if data then
-			if data.pz then
-				if data.pz.nameplates then
-					if data.pz.nameplates.hdNameplates then
-						if data.pz.nameplates.hdClient then
-							data.pz.nameplates.hdClient.hdNameplates = data.pz.nameplates.hdNameplates
-						else
-							data.pz.nameplates.hdClient = {
-								hdNameplates = data.pz.nameplates.hdNameplates
-							}
-						end
-						data.pz.nameplates.hdNameplates = nil
-					end
-				end
-			end
-		end
-	end
-end
+-- KyaUI: aqui habia un databaseConversions() que solo migraba la clave hdNameplates del
+-- modulo de nameplates. Con el modulo fuera no queda nada que convertir. Las claves
+-- pz.nameplates que sigan en perfiles antiguos son inertes: ya no las lee nadie.
 
 function PZ:Initialize()
 	ProjectZidrasDB = ProjectZidrasDB or {}
-	databaseConversions()
 
 	EP:RegisterPlugin(AddOnName, self.InsertOptions)
 

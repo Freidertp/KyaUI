@@ -2,6 +2,10 @@
 	<Script file='LibAceConfigHelper\LibAceConfigHelper.lua'/>
 	<Include file="Compat\Compat.xml"/>
 	<Script file="SpecializedAbsorbs-1.0\SpecializedAbsorbs-1.0.lua"/>
+	<!-- LibHealComm-4.0 venia dentro de ElvUI 6.09 (Libraries\oUF_Plugins\oUF_HealComm4\).
+	     ElvUI 7.27 ya no la trae y oUF_Plugins\HealthPrediction.lua la exige, asi que se
+	     empaqueta aqui. Tiene que cargar ANTES que oUF_Plugins. -->
+	<Script file="LibHealComm-4.0\LibHealComm-4.0.lua"/>
 	<Include file="oUF_Plugins\oUF_Plugins.xml"/>
 	<Include file="LibGetEnchant-1.0\LibGetEnchant-1.0.xml"/>
 </Ui>

@@ -12,8 +12,12 @@ Skada, DBM y WeakAuras mediante un asistente (`PluginInstaller` de ElvUI).
 - `## Interface: 30300` en el `.toc`. El cliente es **custom**: existen addons propios de
   Ascension (`Ascension_NamePlates`, `Ascension_SkillCards`, `AscensionUI`…) que pueden
   chocar con ElvUI. `Modules/Nameplates.lua` ya gestiona uno de esos conflictos.
-- **El ElvUI de `vendor/` está parcheado** para este cliente. No actualizarlo desde upstream
-  ni "corregir" su código: un ElvUI estándar rompe con errores de Lua en CoA.
+- **ElvUI no se empaqueta**: es dependencia (`## RequiredDeps: ElvUI`) y lo instala el usuario
+  desde la pestaña *Addons* del Ascension Launcher, que reparte la **7.x**. El launcher también
+  trae `ElvUI_OptionsUI`, `ElvUI_AddOnSkins`, `ElvUI_Enhanced` y `ElvUI_EnhancedFriendsList`,
+  así que esos tampoco van en `vendor/`. Los plugins que sí van en `vendor/` (ProjectZidras,
+  MicrobarEnhancement, DTBars2, CustomTweaks, CustomTags, DataTextColors) **sí están parcheados**
+  para esta combinación: no actualizarlos desde upstream sin comprobar contra la 7.x.
 
 ## Estructura
 
@@ -25,7 +29,9 @@ KyaUI/                  el addon (esto es lo que se copia a Interface\AddOns)
   Modules/              CVar, Theme, Chat, Nameplates
   Media/                fuente SFUIDisplayCondensed-Semibold, textura Flatt, logo
   Profiles/             aplicadores (ElvUI.lua, Skada.lua…) + volcados (data_*.lua)
-vendor/                 ElvUI parcheado + plugins, Skada, xCT+, DBM, BugSack (NO editar)
+vendor/                 plugins de ElvUI que el launcher NO reparte, Skada, xCT+, BugSack
+                        (no editar salvo parche deliberado para la 7.x — hay varios)
+launcher/               KyaUI-Launcher.bat + KyaUI-Update.ps1 (autoactualizador desde GitHub)
 tools/build.ps1         genera dist/KyaUI-Package.zip para repartir
 ```
 
@@ -41,8 +47,13 @@ y no hay error visible**. Los `data_*.lua` deben ir siempre antes de sus aplicad
   (`FULL_HD` / `QUAD_HD`), `AceProfileName` (`"Nombre - Reino"`).
 - La versión instalada se guarda en `E.private.KyaUI.install_version`. Subir `## Version`
   en el `.toc` dispara el aviso de actualización en `Code.lua`.
-- Comentarios en español y **sin tildes ni caracteres no-ASCII dentro de los `.lua`**
-  (el cliente 3.3.5a los renderiza mal). Este CLAUDE.md y el README sí llevan tildes.
+- **Todo el texto que ve el usuario va en inglés**: mensajes de `E:Print`, etiquetas de botón,
+  `StaticPopupDialogs`, páginas del asistente, salidas de los comandos `/kyaui`. Los
+  **comentarios van en español**. La UI del juego está en inglés y el paquete se reparte a
+  gente que no habla español.
+- Sin tildes ni caracteres no-ASCII dentro de los `.lua` (el cliente 3.3.5a los renderiza mal).
+  Única excepción viva: los nombres de canal en ruso de `Modules/Chat.lua`, que son datos que
+  deben coincidir literalmente. Este CLAUDE.md y el README sí llevan tildes.
 
 ## `Profiles/data_*.lua` — son generados
 

@@ -1,9 +1,7 @@
 local PZ, T, E, L, V, P, G = unpack(select(2, ...))
 local ZA = PZ.WrathArmory
 local ZCH = PZ.Chat
-local ZNP = PZ.NamePlates
 local UF = E.UnitFrames
-local NP = E.NamePlates
 local ACH = LibStub("LibAceConfigHelper")
 
 --GLOBALS: unpack, format
@@ -44,68 +42,11 @@ local attachToValues = {
 	Frame = L["Frame"],
 }
 
-local HDClientIcon = [[|TInterface\AddOns\ElvUI_ProjectZidras\Media\Textures\HDClient.tga:20:20|t ]]
-
 local function ChatOptions()
 	local config = ACH:Group(L["Chat"], nil, 1, "tab", function(info) return E.db.pz.chat[info[#info]] end)
 	config.args.header = ACH:Header(L["Chat"], 0)
 	config.args.guildmaster = ACH:Toggle(L["Guild Master Icon"], L["Displays an icon near your Guild Master in chat.\n\n|cffFF0000Note:|r Some messages in chat history may disappear on login."], 1, nil, nil, nil, nil, function(self, value)	E.db.pz.chat.guildmaster = value ZCH:GMIconUpdate()	end)
 	config.args.lfgIcons = ACH:Toggle(L["Role Icon"], L["Display LFG Icons in chat."], 2, nil, nil, nil, nil, function(self, value)	E.db.pz.chat.lfgIcons = value ZCH:CheckLFGRoles() end)
-
-	return config
-end
-
-local function NamePlatesOptions()
-	local config = ACH:Group(L["NamePlates"], nil, 2, "tab", function(info) return E.db.pz.nameplates[info[#info]] end, function(info, value) E.db.pz.nameplates[info[#info]] = value NP:ConfigureAll() end, function() return not E.NamePlates.Initialized end)
-	config.args.hdClient = ACH:Group(HDClientIcon.."HD-Client", nil, 1, "tab", function(info) return E.db.pz.nameplates.hdClient[info[#info]] end, function(info, value) E.db.pz.nameplates.hdClient[info[#info]] = value E:StaticPopup_Show("PRIVATE_RL") end)
-	config.args.hdClient.args.hdClientdesc = ACH:Description(L["HD-Client"], 1)
-	config.args.hdClient.args.hdNameplates = ACH:Toggle(HDClientIcon..L["HD-Nameplates"], L["HD-Nameplates_DESC"], 2)
-
-	config.args.tags = ACH:Group("Tags", nil, 2, "tree", function(info) return E.db.pz.nameplates.tags[info[#info]] end, function(info, value) E.db.pz.nameplates.tags[info[#info]] = value end)
-	local tags = config.args.tags.args
-	tags.guidGroup = ACH:Group(L["GUID"], L["GUID_DESC"], 1, nil, function(info) return E.db.pz.nameplates.tags.guid[info[#info]] end, function(info, value) E.db.pz.nameplates.tags.guid[info[#info]] = value ZNP:UpdateAllSettings() NP:ConfigureAll() end)
-	tags.guidGroup.args.enable = ACH:Toggle(L["Enable"], nil, 1)
-	tags.guidGroup.args.position = ACH:Select(L["Position"], nil, 2, positionValues)
-	tags.guidGroup.args.parent = ACH:Select(L["Parent"], nil, 3, { Nameplate = L["Nameplate"], Health = L["Health"] })
-	tags.guidGroup.args.xOffset = ACH:Range(L["X-Offset"], nil, 4, { min = -100, max = 100, step = 1 })
-	tags.guidGroup.args.yOffset = ACH:Range(L["Y-Offset"], nil, 5, { min = -100, max = 100, step = 1 })
-	tags.guidGroup.args.fontGroup = ACH:Group("Fonts", nil, 6)
-	tags.guidGroup.args.fontGroup.inline = true
-	tags.guidGroup.args.fontGroup.args.font = ACH:SharedMediaFont(L["Font"], nil, 1)
-	tags.guidGroup.args.fontGroup.args.fontSize = ACH:Range(L["Font Size"], nil, 2, { min = 4, max = 60, step = 1 })
-	tags.guidGroup.args.fontGroup.args.fontOutline = ACH:FontFlags(L["Font Outline"], nil, 3)
-
-	tags.unitGroup = ACH:Group(L["Unit"], L["Unit_DESC"], 2, nil, function(info) return E.db.pz.nameplates.tags.unit[info[#info]] end, function(info, value) E.db.pz.nameplates.tags.unit[info[#info]] = value ZNP:UpdateAllSettings() NP:ConfigureAll() end)
-	tags.unitGroup.args.enable = ACH:Toggle(L["Enable"], nil, 1)
-	tags.unitGroup.args.position = ACH:Select(L["Position"], nil, 2, positionValues)
-	tags.unitGroup.args.parent = ACH:Select(L["Parent"], nil, 3, { Nameplate = L["Nameplate"], Health = L["Health"] })
-	tags.unitGroup.args.xOffset = ACH:Range(L["X-Offset"], nil, 4, { min = -100, max = 100, step = 1 })
-	tags.unitGroup.args.yOffset = ACH:Range(L["Y-Offset"], nil, 5, { min = -100, max = 100, step = 1 })
-	tags.unitGroup.args.fontGroup = ACH:Group("Fonts", nil, 6)
-	tags.unitGroup.args.fontGroup.inline = true
-	tags.unitGroup.args.fontGroup.args.font = ACH:SharedMediaFont(L["Font"], nil, 1)
-	tags.unitGroup.args.fontGroup.args.fontSize = ACH:Range(L["Font Size"], nil, 2, { min = 4, max = 60, step = 1 })
-	tags.unitGroup.args.fontGroup.args.fontOutline = ACH:FontFlags(L["Font Outline"], nil, 3)
-
-	tags.titleGroup = ACH:Group(L["Player Titles"], L["Display player titles."], 3, nil, function(info) return E.db.pz.nameplates.tags.title[info[#info]] end, function(info, value) E.db.pz.nameplates.tags.title[info[#info]] = value ZNP:UpdateAllSettings() NP:ConfigureAll() end)
-	tags.titleGroup.args.enable = ACH:Toggle(L["Enable"], nil, 1)
-
-	tags.displayTargetGroup = ACH:Group(L["Display Target"], L["Display the target of the current cast in the castbar"], 4, nil, function(info) return E.db.pz.nameplates.tags.displayTarget[info[#info]] end, function(info, value) E.db.pz.nameplates.tags.displayTarget[info[#info]] = value ZNP:UpdateAllSettings() NP:ConfigureAll() end)
-	tags.displayTargetGroup.args.warning = ACH:Description(L["Based on the unit's target, which isn't always an indicator of the cast target. Will be inaccurate for self/mouseover/macro casts if unit is targeting elsewhere."], 1)
-	tags.displayTargetGroup.args.enable = ACH:Toggle(L["Enable"], nil, 1)
-	tags.displayTargetGroup.args.separator = ACH:Select(L["Separator"], nil, 2, {
-		[">"] = ">",
-		["<"] = "< >",
-		["("] = "( )",
-		["["] = "[ ]",
-		["{"] = "{ }"
-	})
-	tags.displayTargetGroup.args.unitTypeGroup = ACH:Group(L["Unit Type"], nil, 3)
-	tags.displayTargetGroup.args.unitTypeGroup.inline = true
-	tags.displayTargetGroup.args.unitTypeGroup.args.friendlyPlayer = ACH:Toggle(L["FRIENDLY_PLAYER"], nil, 1)
-	tags.displayTargetGroup.args.unitTypeGroup.args.friendlyNPC = ACH:Toggle(L["FRIENDLY_NPC"], nil, 2)
-	tags.displayTargetGroup.args.unitTypeGroup.args.enemyPlayer = ACH:Toggle(L["ENEMY_PLAYER"], nil, 3)
-	tags.displayTargetGroup.args.unitTypeGroup.args.enemyNPC = ACH:Toggle(L["ENEMY_NPC"], nil, 4)
 
 	return config
 end
@@ -385,7 +326,6 @@ function PZ:InsertOptions()
 				args = {
 					--* Modules are added here
 					chatGroup = ChatOptions(),
-					namePlatesGroup = NamePlatesOptions(),
 					unitFramesGroup = UnitFramesOptions(),
 					wrathArmoryGroup = WrathArmoryOptions(),
 				},

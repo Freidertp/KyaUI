@@ -59,44 +59,6 @@ P.pz = {
 		guildmaster = true,
 		lfgIcons = true,
 	},
-	nameplates = {
-		hdClient = {
-			hdNameplates = false,
-		},
-		tags = {
-			guid = {
-				enable = false,
-				position = "BOTTOM",
-				parent = "Health",
-				font = "PT Sans Narrow",
-				fontSize = 12,
-				fontOutline = "OUTLINE",
-				xOffset = 0,
-				yOffset = 0,
-			},
-			unit = {
-				enable = false,
-				position = "RIGHT",
-				parent = "Health",
-				font = "PT Sans Narrow",
-				fontSize = 10,
-				fontOutline = "OUTLINE",
-				xOffset = 0,
-				yOffset = 0,
-			},
-			title = {
-				enable = false,
-			},
-			displayTarget = {
-				enable = false,
-				separator = ">",
-				friendlyPlayer = false,
-				friendlyNPC = true,
-				enemyPlayer = false,
-				enemyNPC = true,
-			},
-		}
-	},
 	unitframe = {
 		general = {
 			roleIcons = {

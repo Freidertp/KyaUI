@@ -80,6 +80,14 @@ function AB:GetOptions()
 	}
 end
 
+-- Esta lista tiene que ir en sintonia con MICRO_BUTTONS de ElvUI (Modules\ActionBars\MicroBar.lua):
+-- el .text solo se crea en el hook de AB:HandleMicroButton, y ElvUI solo llama a esa funcion
+-- para los botones de SU lista. ElvUI 7.27 quito PVPMicroButton de esa lista y anadio
+-- PathToAscension y Challenges, asi que aqui PVPMicroButton se quedaba sin .text y petaba
+-- al colorear.
+-- Es la union de las dos versiones (6.x y 7.x) a proposito: el que no gestione la version
+-- instalada se queda sin .text, y de eso se encargan las guardas 'b and b.text' de abajo.
+-- PathToAscension y Challenges no tienen entrada en Locales\ (son de 7.27), van con literal.
 local MICRO_BUTTONS = {
 	["CharacterMicroButton"] = L["CHARACTER_SYMBOL"],
 	["SpellbookMicroButton"] = L["SPELLBOOK_SYMBOL"],
@@ -87,8 +95,10 @@ local MICRO_BUTTONS = {
 	["AchievementMicroButton"] = L["ACHIEVEMENT_SYMBOL"],
 	["QuestLogMicroButton"] = L["QUEST_SYMBOL"],
 	["SocialsMicroButton"] = L["SOCIAL_SYMBOL"],
-	["PVPMicroButton"] = L["PVP_SYMBOL"],
 	["LFDMicroButton"] = L["LFD_SYMBOL"],
+	["PVPMicroButton"] = L["PVP_SYMBOL"],              -- solo ElvUI 6.x
+	["PathToAscensionMicroButton"] = "P",              -- solo ElvUI 7.x
+	["ChallengesMicroButton"] = "K",                   -- solo ElvUI 7.x
 	["MainMenuMicroButton"] = L["MENU_SYMBOL"],
 	["HelpMicroButton"] = L["HELP_SYMBOL"]
 }
@@ -97,7 +107,11 @@ function AB:SetSymbloColor()
 	local color = AB.db.microbar.classColor and (E.myclass == "PRIEST" and E.PriestColors or (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass])) or AB.db.microbar.colorS
 
 	for button in pairs(MICRO_BUTTONS) do
-		_G[button].text:SetTextColor(color.r, color.g, color.b)
+		-- defensivo: si una version de ElvUI deja de gestionar un boton, no hay .text
+		local b = _G[button]
+		if b and b.text then
+			b.text:SetTextColor(color.r, color.g, color.b)
+		end
 	end
 end
 
@@ -148,14 +162,18 @@ function AB:UpdateMicroPositionDimensions()
 	for button in pairs(MICRO_BUTTONS) do
 		local b = _G[button]
 
-		if AB.db.microbar.symbolic then
-			b:DisableDrawLayer("ARTWORK")
-			b:DisableDrawLayer("OVERLAY")
-			b:EnableDrawLayer("BORDER")
-		else
-			b:EnableDrawLayer("ARTWORK")
-			b:EnableDrawLayer("OVERLAY")
-			b:DisableDrawLayer("BORDER")
+		-- sin .text es que esta version de ElvUI no gestiona el boton: dejarlo como esta.
+		-- Si se le quitara el ARTWORK igualmente se quedaria invisible (sin icono ni simbolo).
+		if b and b.text then
+			if AB.db.microbar.symbolic then
+				b:DisableDrawLayer("ARTWORK")
+				b:DisableDrawLayer("OVERLAY")
+				b:EnableDrawLayer("BORDER")
+			else
+				b:EnableDrawLayer("ARTWORK")
+				b:EnableDrawLayer("OVERLAY")
+				b:DisableDrawLayer("BORDER")
+			end
 		end
 	end
 
