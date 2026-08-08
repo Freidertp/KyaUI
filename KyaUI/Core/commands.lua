@@ -50,14 +50,6 @@ function KyaUI:HandleSlash(msg)
 			E:Print('|cffff5555KyaUI|r: AuctionsCancel.lua is not loaded (quit the game and log back in).')
 		end
 
-	elseif msg == 'atr cancel' then
-		-- diagnostico de las casillas para cancelar varias subastas
-		if KyaUI.DiagnoseAuctionatorCancel then
-			KyaUI:DiagnoseAuctionatorCancel()
-		else
-			E:Print('|cffff5555KyaUI|r: AuctionatorCancel.lua is not loaded (quit the game and log back in).')
-		end
-
 	elseif msg == 'atr' or msg == 'atr scan' then
 		-- diagnostico de las teclas Enter/Esc en los dialogos de Auctionator
 		if KyaUI.ToggleAuctionatorDebug then
@@ -77,7 +69,6 @@ function KyaUI:HandleSlash(msg)
 		E:Print('  |cffffff00/kyaui config|r  - open the ElvUI config (/ec)')
 		E:Print('  |cffffff00/kyaui atr|r  - Enter/Esc handling in Auctionator dialogs')
 		E:Print('  |cffffff00/kyaui atr scan|r  - list the dialogs visible right now')
-		E:Print('  |cffffff00/kyaui atr cancel|r  - checkboxes in the Auctionator panes')
 		E:Print('  |cffffff00/kyaui atr auctions|r  - checkboxes in the Blizzard Auctions tab')
 		E:Print('  |cffffff00/kyaui help|r  - this help')
 		E:Print('|cffff5555KyaUI|r: in the |cffffff00Auctions|r tab you can also use'

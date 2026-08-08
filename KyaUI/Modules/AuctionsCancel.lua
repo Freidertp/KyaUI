@@ -1,9 +1,12 @@
 -- KyaUI: seleccion multiple para retirar subastas propias.
 --
 -- Va en la pestana "Auctions" de la casa de subastas de BLIZZARD (AuctionFrameAuctions), que
--- es donde salen TODAS tus subastas de golpe. El otro modulo (AuctionatorCancel.lua) trabaja
--- dentro de los paneles de Auctionator, y ahi una fila es un PRECIO de un objeto concreto;
--- aqui una fila es UNA subasta.
+-- es donde salen TODAS tus subastas de golpe: aqui una fila es UNA subasta.
+--
+-- Hubo un modulo hermano (AuctionatorCancel.lua) que hacia lo mismo dentro de los paneles de
+-- Auctionator, donde una fila es un PRECIO y no una subasta. Se quito: cancelaba con una cola
+-- de E:Delay, o sea fuera del evento de hardware, y el cliente bloquea ahi CancelAuction().
+-- Sigue en el historial de git si algun dia hace falta.
 --
 -- OJO: todo el texto que ve el usuario va en INGLES. Los comentarios, en espanol.
 --

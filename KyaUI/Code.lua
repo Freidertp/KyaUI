@@ -79,11 +79,6 @@ local function Initialize()
 		KyaUI:SetupAuctionatorKeys()
 	end
 
-	-- Casillas + boton para cancelar varios precios de golpe (paneles de Auctionator)
-	if KyaUI.SetupAuctionatorMultiCancel then
-		KyaUI:SetupAuctionatorMultiCancel()
-	end
-
 	-- Casillas + boton para retirar varias subastas de golpe (pestana Auctions de Blizzard)
 	if KyaUI.SetupAuctionsMultiCancel then
 		KyaUI:SetupAuctionsMultiCancel()

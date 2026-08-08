@@ -9,7 +9,6 @@
 	<Script file='Modules\Chat.lua'/>
 	<Script file='Modules\Nameplates.lua'/>
 	<Script file='Modules\Auctionator.lua'/>
-	<Script file='Modules\AuctionatorCancel.lua'/>
 	<Script file='Modules\AuctionsCancel.lua'/>
 	<Script file='Profiles\data_elvui.lua'/>
 	<Script file='Profiles\data_private.lua'/>
