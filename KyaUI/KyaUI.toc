@@ -1,6 +1,6 @@
 ## Interface: 30300
 ## Author: Kyaro
-## Version: 1.0
+## Version: 1.1
 ## Title: |cff1784d1ElvUI|r |cffff5555KyaUI|r
 ## Notes: Kyaro's UI installer (ElvUI/Skada/xCT+/DBM profiles). Requires ElvUI.
 ## RequiredDeps: ElvUI

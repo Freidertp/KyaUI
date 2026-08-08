@@ -27,7 +27,7 @@ $ProgressPreference = 'SilentlyContinue'
 
 # Repo de GitHub del que se leen las releases. Se puede cambiar en kyaui-launcher.json
 # ("repo": "usuario/KyaUI") o pasando -Repo.
-$DEFAULT_REPO = 'Freider/KyaUI'
+$DEFAULT_REPO = 'Freidertp/KyaUI'
 
 $ADDONS_REL = 'resources\ascension-live\Interface\AddOns'
 $LAUNCHER_EXE = 'Ascension Launcher.exe'
