@@ -1,64 +1,100 @@
-# KyaUI — Instalación (para amigos)
+# KyaUI
 
-UI de Kyaro para **Conquest of Azeroth / Ascension** (basada en ElvUI). Instalador con asistente
-que configura ElvUI, xCT+, Skada y DBM con un click.
+A complete interface setup for **Ascension / Conquest of Azeroth** (3.3.5a), built on ElvUI.
 
-## 1. Instala ElvUI primero (obligatorio)
+KyaUI is an **ElvUI plugin**. It does not draw a UI of its own — it adds a wizard that applies a
+full ElvUI profile plus matching profiles for the other addons, so a fresh install goes from the
+default UI to a finished layout without opening a single settings panel.
 
-**Ascension Launcher → pestaña "Addons" → ElvUI → Install.**
+> Instrucciones en español para instalar el ZIP a mano: ver **[INSTALL.txt](INSTALL.txt)**.
 
-KyaUI es un *plugin* de ElvUI: sin él no carga (sale como dependencia ausente).
+---
 
-> El paquete **ya no incluye ElvUI**. Antes sí, pero el launcher reparte una versión más nueva
-> (7.x) y las dos se pisaban. Ahora se usa la del launcher, que además se actualiza sola.
-> Junto con ElvUI, el launcher instala `ElvUI_OptionsUI`, `ElvUI_AddOnSkins`, `ElvUI_Enhanced`
-> y `ElvUI_EnhancedFriendsList`, así que esos tampoco vienen en el ZIP.
+## Requirements
 
-El resto sí va en el paquete: `ElvUI_ProjectZidras`, `ElvUI_DTBars2`, `ElvUI_CustomTweaks`,
-`ElvUI_CustomTags`, `ElvUI_DataTextColors`, `ElvUI_MicrobarEnhancement`, además de **xCT+**
-(texto de combate), **Skada** (medidor) y **BugSack**. **DBM-Core** (avisos de jefes) se instala
-aparte — ver la sección de opcionales.
+**ElvUI is a hard dependency and is not bundled here.** Install it from the *Addons* tab of the
+Ascension Launcher — it ships version 7.x and keeps it updated. Without it KyaUI will not load at
+all; the character screen will show it as a missing dependency.
 
-## 2. Copiar y activar
-1. Cierra el juego.
-2. Copia todas las carpetas a `...\resources\ascension-live\Interface\AddOns\`.
-3. En la pantalla de personajes → **AddOns** → activa **"Load out of date AddOns"** y verifica
-   que ElvUI, KyaUI y los demás están marcados.
+The launcher installs `ElvUI_OptionsUI`, `ElvUI_AddOnSkins`, `ElvUI_Enhanced` and
+`ElvUI_EnhancedFriendsList` alongside ElvUI, so those are not bundled either.
 
-## 2b. Actualizar (automático)
+Optional, configured by the wizard if present: **DBM** and **WeakAuras** (both in the Ascension
+catalog).
 
-Abre el juego con **`KyaUI-Launcher.bat`** (viene en el ZIP; puedes dejarlo donde quieras y
-crearle un acceso directo). Antes de arrancar Ascension comprueba si hay una versión nueva
-publicada y la instala sola.
+## What is in this repository
 
-- La primera vez localiza tu instalación de Ascension y la recuerda en `kyaui-launcher.json`.
-- **No toca `WTF\`**: tus perfiles, keybinds y macros se quedan igual.
-- Solo reemplaza las carpetas que vienen en el paquete — los addons que hayas añadido tú no se
-  tocan, y **ElvUI tampoco** (lo sigue actualizando el Ascension Launcher).
-- Deja una copia de lo anterior en `...\KyaUI-backups\<fecha>\` (guarda las 2 últimas).
-- El juego debe estar **cerrado**; si está abierto, avisa y no toca nada.
+| Folder | Why it is here |
+| --- | --- |
+| `KyaUI` | The addon itself: the wizard, the profiles and the extras below. |
+| `ElvUI_ProjectZidras` | Absorb prediction, role icons, heal prediction, chat icons. **Patched** for ElvUI 7.x. |
+| `ElvUI_MicrobarEnhancement` | Symbols on the micro bar. **Patched** for ElvUI 7.x. |
+| `ElvUI_DTBars2` | Extra datatext bars used by the layout. |
+| `ElvUI_CustomTweaks` | Bag buttons and assorted tweaks the profile relies on. |
+| `ElvUI_CustomTags` | Extra unitframe tags used by the profile. |
+| `ElvUI_DataTextColors` | Per-datatext colouring. |
+| `Skada`, `SkadaImprovement`, `SkadaStorage` | Damage meter. The wizard applies a profile to it. |
+| `xCT+` | Combat text. The wizard applies a profile based on your role. |
+| `BugSack`, `!BugGrabber` | Lua error viewer, so problems are visible instead of silent. |
 
-Opciones para probar sin instalar nada: `KyaUI-Launcher.bat -CheckOnly` (solo informa) y
-`-NoLaunch` (actualiza pero no abre el juego).
+The six `ElvUI_*` plugins are not in the Ascension catalog and the profile depends on them, which
+is why they travel with KyaUI. Two of them carry patches for ElvUI 7.x — see the notes at the
+bottom.
 
-## 3. Primer arranque (desde cero)
-1. Entra al juego. **El asistente de KyaUI se abre directamente** — KyaUI hace que ElvUI se salte
-   su propio instalador, así que NO tienes que darle "Skip Process".
-   (Si por algo no aparece, escribe **`/kyaui`**.)
+## The wizard
 
-## 4. Recorre el asistente de KyaUI (en orden)
-1. **CVars** → Setup CVars
-2. **Apply KyaUI** → aplica la interfaz (layout, fuentes, nameplates, filtro Defensivos)
-3. **Theme** → Class Colors o Dark Mode
-4. **Chat** → Setup Chat (ordena las ventanas; los canales globales van a GLB)
-5. **xCT+** → elige **Healer** o **DPS/Tank** según tu rol
-6. **Skada** → Apply Skada
-7. **DBM** → Apply DBM
-8. **Finished** → recarga y aplica todo
+Type **`/kyaui`** (or `/kui`) at any time to open it. On a first install it opens on its own, and
+KyaUI makes ElvUI skip its own installer so you do not have to click *Skip Process*.
 
-## Notas
-- **Nameplates**: KyaUI apaga la opción "Use Ascension NamePlates" (CVar `useNewNameplates`) para
-  que ElvUI las estilice. Si el cliente la re-activa, KyaUI la vuelve a apagar al entrar (popup de reload).
-- **Re-abrir el asistente**: `/kyaui` (o `/kui`).
-- **NO incluye nada de clase** (sin HoTs ni WeakAuras): es una base limpia; cada quien añade lo suyo.
-- Los **keybinds** son por personaje (no se comparten): ponlos tú.
+Walk the pages in order and press **Finished** on the last one to apply everything and reload:
+
+1. **CVars** — recommended client variables (nameplates, camera, autoloot).
+2. **Apply KyaUI** — the ElvUI profile: unitframes, action bars, fonts, textures, and a custom
+   defensive-cooldown aura filter.
+3. **Theme** — *Class Colors* or *Dark Mode*.
+4. **Chat** — arranges the chat windows by channel.
+5. **xCT+** — pick **Healer** or **DPS/Tank**; healing and numbers are laid out differently.
+6. **Skada** — applies the damage meter profile.
+7. **DBM** — applies the boss mod profile, if DBM is installed.
+8. **WeakAuras** — opens the WeakAuras import window so you can review before applying.
+
+## Extras beyond the profile
+
+These are small fixes for this client specifically, all inside the `KyaUI` addon:
+
+**Nameplates.** `Ascension_NamePlates` draws its own HD nameplates that clash with ElvUI. KyaUI
+turns the `useNewNameplates` CVar off on login and silences the *"Couldn't load
+Ascension_NamePlates"* popup. The launcher re-enables the addon on every start, so this runs each
+time you log in.
+
+**Auction house — cancel several auctions at once.** The Blizzard *Auctions* tab gets a checkbox
+on each row. Click them, or **Ctrl+click** a row to toggle one, or **Shift+click** for a range.
+The existing *Cancel Auction* button then reads *Cancel Selected (N)*.
+Note that the server only accepts **one cancellation per click**, so the button cancels one and
+counts down — the selection survives in between.
+
+**Auctionator dialogs.** Auctionator's confirmation windows do not capture the keyboard, so Enter
+used to open the chat instead of confirming. KyaUI binds Enter and Escape to them while they are
+on screen and releases the keys as soon as they close.
+
+## Commands
+
+| Command | What it does |
+| --- | --- |
+| `/kyaui` | Open the install wizard |
+| `/kyaui reset` | Re-apply the ElvUI profile (restores the layout) |
+| `/kyaui config` | Open the ElvUI config (`/ec`) |
+| `/kyaui atr` | Diagnostics for Enter/Esc in Auctionator dialogs |
+| `/kyaui atr auctions` | Diagnostics for the Auctions tab checkboxes |
+| `/kyaui help` | List the commands |
+
+## Notes
+
+- **No class content.** No HoT bars, no personal WeakAuras — this is a clean base to build on.
+- **Keybinds are per character** and are not part of the profile. Set your own.
+- Designed for **1080p**. It works at other resolutions but positions were tuned at that size.
+- Lua errors show up in **BugSack** (the icon on the minimap).
+- The bundled plugins are patched for ElvUI 7.x and for this client. Do not replace them with
+  upstream copies without checking: `ElvUI_MicrobarEnhancement` breaks on 7.x because the micro
+  button list changed, and `ElvUI_ProjectZidras` ships without its nameplate module, which was
+  written against ElvUI 6.09 and is native in 7.x.

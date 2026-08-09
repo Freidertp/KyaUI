@@ -1,7 +1,7 @@
 # Publica una version de KyaUI: empaqueta, etiqueta y crea la release en GitHub.
 #
-# Uso:  .\tools\release.ps1
-#       .\tools\release.ps1 -Notes "Enter/Esc en los dialogos de Auctionator"
+# Uso:  .\.dev\tools\release.ps1
+#       .\.dev\tools\release.ps1 -Notes "Enter/Esc en los dialogos de Auctionator"
 #
 # La version sale de '## Version' en KyaUI\KyaUI.toc: subela ANTES de publicar.
 # Requiere git con un remoto configurado y la CLI 'gh' autenticada (gh auth login).
@@ -12,7 +12,8 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 
-$root = Split-Path $PSScriptRoot -Parent
+# Este script vive en .dev\tools\, asi que la raiz del repo esta DOS niveles arriba.
+$root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 
 # Version desde el .toc (misma fuente que build.ps1)
 $toc = Get-Content (Join-Path $root 'KyaUI\KyaUI.toc')

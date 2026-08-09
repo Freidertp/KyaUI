@@ -20,7 +20,7 @@ Skada, DBM y WeakAuras mediante un asistente (`PluginInstaller` de ElvUI).
   para esta combinación: no actualizarlos desde upstream sin comprobar contra la 7.x.
 - **Las carpetas de addon viven en la raíz del repo**, no en un `vendor/`. Es la estructura que
   espera el catálogo de Ascension (ver `Ascension-Addons/ElvUI`), para poder pedir el alta en su
-  launcher. `tools/build.ps1` las detecta por su `.toc`, igual que hace WoW: para añadir un addon
+  launcher. `.dev/tools/build.ps1` las detecta por su `.toc`, igual que WoW: para añadir un addon
   al paquete basta con dejar su carpeta en la raíz.
 
 ## Estructura
@@ -42,13 +42,19 @@ ElvUI_CustomTags/
 ElvUI_DataTextColors/
 Skada/  SkadaImprovement/  SkadaStorage/  xCT+/  BugSack/  !BugGrabber/
 
-launcher/               KyaUI-Launcher.bat + KyaUI-Update.ps1 (autoactualizador desde GitHub)
-tools/build.ps1         genera dist/KyaUI-Package.zip para repartir
-INSTALL.txt             instrucciones que van en la raíz del ZIP
+.dev/                   TODO lo que no es un addon vive aquí, para que la raíz solo tenga
+  launcher/             addons. KyaUI-Launcher.bat + KyaUI-Update.ps1 (autoactualizador)
+  tools/build.ps1       genera dist/KyaUI-Package-v<version>.zip
+  tools/release.ps1     empaqueta, etiqueta y publica la release en GitHub
+  tools/export-profiles.ps1   regenera los data_*.lua desde WTF\
+
+README.md               en INGLÉS: es lo que ve quien evalúa el addon en GitHub
+INSTALL.txt             en español, instrucciones del ZIP para los amigos
 ```
 
-`launcher/`, `tools/` y `dist/` no llevan `.toc`, así que `build.ps1` los ignora solos y el
-launcher de Ascension no los tomaría por addons.
+`.dev/` y `dist/` no llevan `.toc`, así que `build.ps1` los ignora solos y el launcher de
+Ascension no los tomaría por addons. **Los scripts de `.dev/tools/` calculan la raíz del repo
+subiendo DOS niveles** (`.dev\tools\` → raíz); si mueves alguno, ajusta esa cuenta.
 
 `Load.xml` no usa carga automática: si añades un archivo y no lo listas ahí, **no se carga
 y no hay error visible**. Los `data_*.lua` deben ir siempre antes de sus aplicadores.
@@ -80,7 +86,7 @@ KyaUI.SkadaData = { ... }
 
 **No se editan a mano.** El flujo correcto es: configurar en el juego → salir → regenerar
 el volcado desde `WTF\Account\<CUENTA>\SavedVariables\<Addon>.lua` (ver
-`tools/export-profiles.ps1`). Un diff enorme en `data_elvui.lua` (56 KB) o
+`.dev/tools/export-profiles.ps1`). Un diff enorme en `data_elvui.lua` (56 KB) o
 `data_weakauras.lua` (114 KB) es normal y no hay que revisarlo línea a línea.
 
 ## Probar un cambio
@@ -96,6 +102,6 @@ No hay tests automáticos ni linter; la verificación es siempre in-game.
 
 ## Al terminar un cambio
 
-`tools/build.ps1` regenera `dist/KyaUI-Package-v<version>.zip` (todas las carpetas con `.toc`
+`.dev/tools/build.ps1` regenera `dist/KyaUI-Package-v<version>.zip` (todas las carpetas con `.toc`
 de la raíz + INSTALL.txt + README + el launcher) para repartir.
 Ejecutarlo solo cuando se vaya a publicar una versión, no en cada commit.

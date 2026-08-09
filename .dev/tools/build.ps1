@@ -1,8 +1,9 @@
 # Genera dist\KyaUI-Package-v<version>.zip listo para repartir.
-# Uso:  .\tools\build.ps1
+# Uso:  .\.dev\tools\build.ps1
 $ErrorActionPreference = 'Stop'
 
-$root    = Split-Path $PSScriptRoot -Parent
+# Este script vive en .dev\tools\, asi que la raiz del repo esta DOS niveles arriba.
+$root    = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $dist    = Join-Path $root 'dist'
 $staging = Join-Path $dist 'KyaUI-Package'
 
@@ -18,8 +19,8 @@ New-Item -ItemType Directory -Force -Path $staging | Out-Null
 
 # Las carpetas de addon estan en la RAIZ del repo, que es la estructura que espera el
 # catalogo de Ascension (ver Ascension-Addons/ElvUI). Se detectan por su .toc, igual que
-# hace WoW: asi tools\, launcher\ y dist\ quedan fuera sin listarlas a mano, y un addon
-# nuevo entra en el paquete solo con dejarlo en la raiz.
+# hace WoW: asi .dev\ y dist\ quedan fuera sin listarlas a mano, y un addon nuevo entra
+# en el paquete solo con dejarlo en la raiz.
 # ElvUI NO esta aqui: lo instala el usuario desde el Ascension Launcher y es dependencia.
 $addons = Get-ChildItem $root -Directory | Where-Object {
     Get-ChildItem $_.FullName -Filter *.toc -File -ErrorAction SilentlyContinue | Select-Object -First 1
@@ -36,8 +37,8 @@ Copy-Item (Join-Path $root 'INSTALL.txt') $staging -Force -ErrorAction SilentlyC
 Copy-Item (Join-Path $root 'README.md')   $staging -Force
 
 # Actualizador: el usuario lo tiene desde la primera instalacion
-Copy-Item (Join-Path $root 'launcher\KyaUI-Launcher.bat') $staging -Force
-Copy-Item (Join-Path $root 'launcher\KyaUI-Update.ps1')   $staging -Force
+Copy-Item (Join-Path $root '.dev\launcher\KyaUI-Launcher.bat') $staging -Force
+Copy-Item (Join-Path $root '.dev\launcher\KyaUI-Update.ps1')   $staging -Force
 
 $zip = Join-Path $dist "KyaUI-Package-v$version.zip"
 if (Test-Path $zip) { Remove-Item $zip -Force }

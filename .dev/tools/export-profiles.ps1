@@ -1,7 +1,7 @@
 # Extrae una tabla de un SavedVariables de WoW y la escribe como Profiles\data_*.lua.
 #
 # Ejemplo (perfil de Skada llamado "MerfinUI v(Normal)7.05"):
-#   .\tools\export-profiles.ps1 `
+#   .\.dev\tools\export-profiles.ps1 `
 #       -Source 'D:\Games\WoWAscension\resources\ascension-live\WTF\Account\KYAROPLAY@GMAIL.COM\SavedVariables\Skada.lua' `
 #       -Anchor '\["MerfinUI v\(Normal\)7\.05"\] = \{' `
 #       -Var 'KyaUI.SkadaData' `
@@ -15,7 +15,7 @@ param(
     [Parameter(Mandatory)] [string]$Anchor,
     [Parameter(Mandatory)] [string]$Var,
     [Parameter(Mandatory)] [string]$Out,
-    [string]$Comment = 'Generado automaticamente por tools/export-profiles.ps1. NO editar a mano.'
+    [string]$Comment = 'Generado automaticamente por .dev/tools/export-profiles.ps1. NO editar a mano.'
 )
 $ErrorActionPreference = 'Stop'
 
@@ -52,6 +52,8 @@ KyaUI = KyaUI or {}
 $Var =
 "@
 
-$outPath = if ([System.IO.Path]::IsPathRooted($Out)) { $Out } else { Join-Path (Split-Path $PSScriptRoot -Parent) $Out }
+# Este script vive en .dev\tools\, asi que la raiz del repo esta DOS niveles arriba.
+$repoRoot = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+$outPath = if ([System.IO.Path]::IsPathRooted($Out)) { $Out } else { Join-Path $repoRoot $Out }
 [System.IO.File]::WriteAllText($outPath, "$header $block`n", (New-Object System.Text.UTF8Encoding $false))
 Write-Host "OK -> $outPath ($([math]::Round((Get-Item $outPath).Length/1KB,1)) KB)"
