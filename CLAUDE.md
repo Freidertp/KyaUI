@@ -19,9 +19,12 @@ Skada, DBM y WeakAuras mediante un asistente (`PluginInstaller` de ElvUI).
   MicrobarEnhancement, DTBars2, CustomTweaks, CustomTags, DataTextColors) **sí están parcheados**
   para esta combinación: no actualizarlos desde upstream sin comprobar contra la 7.x.
 - **Las carpetas de addon viven en la raíz del repo**, no en un `vendor/`. Es la estructura que
-  espera el catálogo de Ascension (ver `Ascension-Addons/ElvUI`), para poder pedir el alta en su
-  launcher. `.dev/tools/build.ps1` las detecta por su `.toc`, igual que WoW: para añadir un addon
-  al paquete basta con dejar su carpeta en la raíz.
+  espera el catálogo de Ascension (ver `Ascension-Addons/ElvUI`): en la raíz solo van carpetas de
+  addon. Para añadir uno, se deja su carpeta ahí.
+- **El único canal de distribución es el launcher de Ascension.** No hay ZIP, ni releases, ni
+  autoactualizador propio: existieron y se quitaron a propósito. Si algo hace falta repartir a
+  mano, se recupera del historial (`git log -- .dev/launcher`), pero no se vuelve a añadir sin
+  motivo: mantener dos canales fue justo lo que se decidió no hacer.
 
 ## Estructura
 
@@ -42,19 +45,15 @@ ElvUI_CustomTags/
 ElvUI_DataTextColors/
 Skada/  SkadaImprovement/  SkadaStorage/  xCT+/  BugSack/  !BugGrabber/
 
-.dev/                   TODO lo que no es un addon vive aquí, para que la raíz solo tenga
-  launcher/             addons. KyaUI-Launcher.bat + KyaUI-Update.ps1 (autoactualizador)
-  tools/build.ps1       genera dist/KyaUI-Package-v<version>.zip
-  tools/release.ps1     empaqueta, etiqueta y publica la release en GitHub
-  tools/export-profiles.ps1   regenera los data_*.lua desde WTF\
+.dev/tools/             lo único que no es un addon. Con punto delante para que ni GitHub ni
+  export-profiles.ps1   el instalador de Ascension lo tomen por uno.
+                        Regenera los data_*.lua desde WTF\.
 
 README.md               en INGLÉS: es lo que ve quien evalúa el addon en GitHub
-INSTALL.txt             en español, instrucciones del ZIP para los amigos
 ```
 
-`.dev/` y `dist/` no llevan `.toc`, así que `build.ps1` los ignora solos y el launcher de
-Ascension no los tomaría por addons. **Los scripts de `.dev/tools/` calculan la raíz del repo
-subiendo DOS niveles** (`.dev\tools\` → raíz); si mueves alguno, ajusta esa cuenta.
+`export-profiles.ps1` calcula la raíz del repo **subiendo DOS niveles** (`.dev\tools\` → raíz);
+si lo mueves, ajusta esa cuenta.
 
 `Load.xml` no usa carga automática: si añades un archivo y no lo listas ahí, **no se carga
 y no hay error visible**. Los `data_*.lua` deben ir siempre antes de sus aplicadores.
@@ -102,6 +101,6 @@ No hay tests automáticos ni linter; la verificación es siempre in-game.
 
 ## Al terminar un cambio
 
-`.dev/tools/build.ps1` regenera `dist/KyaUI-Package-v<version>.zip` (todas las carpetas con `.toc`
-de la raíz + INSTALL.txt + README + el launcher) para repartir.
-Ejecutarlo solo cuando se vaya a publicar una versión, no en cada commit.
+Commit y push a `master`. **No hay paso de empaquetado**: el catálogo de Ascension lee el repo
+directamente, así que subir el commit es publicar. Subir `## Version` en el `.toc` cuando el
+cambio lo merezca, para que se note en la pantalla de AddOns.

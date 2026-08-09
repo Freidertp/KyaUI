@@ -6,8 +6,6 @@ KyaUI is an **ElvUI plugin**. It does not draw a UI of its own — it adds a wiz
 full ElvUI profile plus matching profiles for the other addons, so a fresh install goes from the
 default UI to a finished layout without opening a single settings panel.
 
-> Instrucciones en español para instalar el ZIP a mano: ver **[INSTALL.txt](INSTALL.txt)**.
-
 ---
 
 ## Requirements

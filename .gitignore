@@ -1,6 +1,5 @@
 dist/
 *.zip
-kyaui-launcher.json
 *.bak
 *.orig
 *.rej
