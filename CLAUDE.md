@@ -15,25 +15,40 @@ Skada, DBM y WeakAuras mediante un asistente (`PluginInstaller` de ElvUI).
 - **ElvUI no se empaqueta**: es dependencia (`## RequiredDeps: ElvUI`) y lo instala el usuario
   desde la pestaña *Addons* del Ascension Launcher, que reparte la **7.x**. El launcher también
   trae `ElvUI_OptionsUI`, `ElvUI_AddOnSkins`, `ElvUI_Enhanced` y `ElvUI_EnhancedFriendsList`,
-  así que esos tampoco van en `vendor/`. Los plugins que sí van en `vendor/` (ProjectZidras,
+  así que esos tampoco se empaquetan. Los plugins que sí van en el repo (ProjectZidras,
   MicrobarEnhancement, DTBars2, CustomTweaks, CustomTags, DataTextColors) **sí están parcheados**
   para esta combinación: no actualizarlos desde upstream sin comprobar contra la 7.x.
+- **Las carpetas de addon viven en la raíz del repo**, no en un `vendor/`. Es la estructura que
+  espera el catálogo de Ascension (ver `Ascension-Addons/ElvUI`), para poder pedir el alta en su
+  launcher. `tools/build.ps1` las detecta por su `.toc`, igual que hace WoW: para añadir un addon
+  al paquete basta con dejar su carpeta en la raíz.
 
 ## Estructura
 
 ```
-KyaUI/                  el addon (esto es lo que se copia a Interface\AddOns)
+KyaUI/                  el addon propio
   Code.lua              bootstrap: E:NewModule, detección de resolución, cola del asistente
   Load.xml              ORDEN DE CARGA — todo .lua nuevo debe registrarse aquí
   Core/                 defaults, install (páginas del asistente), commands (/kyaui, /kui)
-  Modules/              CVar, Theme, Chat, Nameplates
+  Modules/              CVar, Theme, Chat, Nameplates, Auctionator, AuctionsCancel
   Media/                fuente SFUIDisplayCondensed-Semibold, textura Flatt, logo
   Profiles/             aplicadores (ElvUI.lua, Skada.lua…) + volcados (data_*.lua)
-vendor/                 plugins de ElvUI que el launcher NO reparte, Skada, xCT+, BugSack
-                        (no editar salvo parche deliberado para la 7.x — hay varios)
+
+ElvUI_ProjectZidras/    addons de terceros, uno por carpeta, en la raíz junto a KyaUI/.
+ElvUI_MicrobarEnhancement/   Varios llevan parches deliberados para la 7.x: no
+ElvUI_DTBars2/               actualizarlos desde upstream sin comprobarlos.
+ElvUI_CustomTweaks/
+ElvUI_CustomTags/
+ElvUI_DataTextColors/
+Skada/  SkadaImprovement/  SkadaStorage/  xCT+/  BugSack/  !BugGrabber/
+
 launcher/               KyaUI-Launcher.bat + KyaUI-Update.ps1 (autoactualizador desde GitHub)
 tools/build.ps1         genera dist/KyaUI-Package.zip para repartir
+INSTALL.txt             instrucciones que van en la raíz del ZIP
 ```
+
+`launcher/`, `tools/` y `dist/` no llevan `.toc`, así que `build.ps1` los ignora solos y el
+launcher de Ascension no los tomaría por addons.
 
 `Load.xml` no usa carga automática: si añades un archivo y no lo listas ahí, **no se carga
 y no hay error visible**. Los `data_*.lua` deben ir siempre antes de sus aplicadores.
@@ -81,5 +96,6 @@ No hay tests automáticos ni linter; la verificación es siempre in-game.
 
 ## Al terminar un cambio
 
-`tools/build.ps1` regenera `dist/KyaUI-Package.zip` (vendor + KyaUI + README) para repartir.
+`tools/build.ps1` regenera `dist/KyaUI-Package-v<version>.zip` (todas las carpetas con `.toc`
+de la raíz + INSTALL.txt + README + el launcher) para repartir.
 Ejecutarlo solo cuando se vaya a publicar una versión, no en cada commit.
