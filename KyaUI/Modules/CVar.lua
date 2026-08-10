@@ -24,6 +24,26 @@ function KyaUI:Set_CVars()
 		['showNewbieTips'] = 0,
 		['alwaysShowActionBars'] = 1,
 		['ShowVKeyCastbar'] = 1,
+
+		-- Los que pone el instalador de ElvUI (Core\Install.lua) y que se perdian porque
+		-- KyaUI hace que ElvUI se salte ese instalador (ver Core\defaults.lua). Sin esto,
+		-- por ejemplo, showTooltipID se quedaba apagado y los tooltips no mostraban el ID.
+		['showTooltipID'] = 1,
+		['UberTooltips'] = 1,
+		['mapQuestDifficulty'] = 1,
+		['screenshotQuality'] = 10,
+		['chatMouseScroll'] = 1,
+		['WholeChatWindowClickable'] = 0,
+		['ConversationMode'] = 'inline',
+		['showLootSpam'] = 1,
+		['threatWarning'] = 3,
+		['lockActionBars'] = 1,
+		['SpamFilter'] = 0,
+
+		-- Este tambien lo pone el instalador de ElvUI. Va aparte porque es de placas y la
+		-- nota de arriba avisa de ese terreno: si las nameplates se ven raras, empieza
+		-- quitando esta linea.
+		['ShowClassColorInNameplate'] = 1,
 	}
 
 	for cvar, value in pairs(CVars) do
