@@ -74,6 +74,11 @@ local function Initialize()
 		E:Delay(2, function() KyaUI:FixNameplateConflict() end)
 	end
 
+	-- IDs y lanzador del aura en los tooltips (ElvUI 7.x quito esto, lo reponemos)
+	if KyaUI.SetupTooltipIDs then
+		KyaUI:SetupTooltipIDs()
+	end
+
 	-- Enter/Esc en los dialogos de confirmacion de Auctionator (si el addon esta cargado)
 	if KyaUI.SetupAuctionatorKeys then
 		KyaUI:SetupAuctionatorKeys()
